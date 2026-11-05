@@ -1,0 +1,64 @@
+//First negative integer in every window of size k
+#include <iostream>
+#include <vector>
+#include <deque>
+
+using namespace std;
+
+vector<long long> printFirstNegativeInteger(long long int A[], long long int N, long long int K) {
+    deque<long long int> dq;
+    vector<long long> ans;
+    
+   
+    for (int i = 0; i < K; i++) {
+        if (A[i] < 0) {
+            dq.push_back(i);
+        }
+    }
+    
+   
+    if (!dq.empty()) {
+        ans.push_back(A[dq.front()]);
+    } else {
+        ans.push_back(0);
+    }
+    
+   
+    for (int i = K; i < N; i++) {
+       
+        if (!dq.empty() && dq.front() <= (i - K)) {
+            dq.pop_front();
+        }
+        
+     
+        if (A[i] < 0) {
+            dq.push_back(i);
+        }
+        
+       
+        if (!dq.empty()) {
+            ans.push_back(A[dq.front()]);
+        } else {
+            ans.push_back(0);
+        }
+    }
+    
+    return ans;
+}
+
+int main() {
+    
+    long long int N = 5;
+    long long int K = 2;
+    long long int A[] = {-8, 2, 3, -6, 10};
+
+    vector<long long> result = printFirstNegativeInteger(A, N, K);
+
+    cout << "Output: ";
+    for (long long x : result) {
+        cout << x << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
